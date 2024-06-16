@@ -22,6 +22,10 @@ export class StringSubject extends Subject<string> {
         return this;
     }
 
+    public is(str: string): boolean {
+        return this.value === str;
+    }
+
     public add(str: string): StringSubject {
         this.value += str;
 

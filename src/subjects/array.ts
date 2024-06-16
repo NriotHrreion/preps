@@ -1,7 +1,7 @@
 import { Subject } from "./subject";
 
 export class ArraySubject<T = any> extends Subject<any[]> {
-    public readonly type = "string";
+    public readonly type = "array";
 
     public constructor(obj: T[]) {
         super(obj);
@@ -77,7 +77,8 @@ export class ArraySubject<T = any> extends Subject<any[]> {
         return this;
     }
 
-    public final(): T[] {
-        return this.value;
+    public final<I extends void | number, R = I extends number ? T : T[]>(index: I): R {
+        if(typeof index === "number") return this.value[index];
+        return this.value as R;
     }
 }

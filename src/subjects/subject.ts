@@ -15,10 +15,10 @@ export abstract class Subject<S = any> {
         throw new Error(message);
     }
 
-    public abstract final(): S;
+    public abstract final(...args: any[]): S;
 
     // An alias for `final()`
-    public f(): S {
-        return this.final();
+    public f(...args: any[]): S {
+        return this.final(...args);
     }
 }
