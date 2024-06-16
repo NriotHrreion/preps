@@ -26,6 +26,12 @@
         - [`final()`](#final)
         - [`log()`](#log)
     - [`StringSubject`](#stringsubject)
+        - [`as(str: string | ((value: string) => string | void))`](#as)
+        - [`is(str: string)`](#is)
+        - [`add(str: string)`](#add)
+        - [`cut(index: number)`](#cut)
+        - [`split(separator: string)`](#split)
+        - [`cutfine()`](#cutfine)
     - [`ArraySubject`](#arraysubject)
     - [`DOMSubject`](#domsubject)
 - [Examples](#examples)
@@ -102,11 +108,13 @@ This method is to finalize a series of operations.
 
 ```ts
 to("hello").add(" world").final() // "hello world"
+// or
+to("hello").add(" world").f() // "hello world"
 ```
 
 #### `log()` <a id="log"></a>
 
-- **Return:** void
+- **Return:** `void`
 
 This method is to finalize a series of operations and print the result into the console.
 
@@ -115,6 +123,68 @@ to("hello").add(" world").log() // "hello world"
 ```
 
 ### `StringSubject`
+
+#### `as(str: string | ((value: string) => string | void))` <a id="as"></a>
+
+- **Return:** [`StringSubject`](#stringsubject)
+
+This allows you to change the content of the string.
+
+```ts
+to("hello").as("hi").f() // "hi"
+to("hello").as((value) => value.length.toString()).f() // "5"
+```
+
+#### `is(str: string)` <a id="is"></a>
+
+- **Return:** `boolean`
+
+This allows you to check if the string is equal to another string.
+
+```ts
+to("hello").is("hello") // true
+to("hello").is("hi") // false
+```
+
+#### `add(str: string)` <a id="add"></a>
+
+- **Return:** [`StringSubject`](#stringsubject)
+
+This allows you to add a string to the end of the string.
+
+```ts
+to("hello").add(" world").f() // "hello world"
+```
+
+#### `cut(index: number)` <a id="cut"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to divide the string into two parts.
+
+```ts
+to("hello").cut(2).f() // ["he", "llo"]
+```
+
+#### `split(separator: string)` <a id="split"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to divide the string into pieces by a separator.
+
+```ts
+to("hello").split("l").f() // ["he", "", "o"]
+```
+
+#### `cutfine()` <a id="cutfine"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to divide the string into pieces, and each piece is no more than one character.
+
+```ts
+to("hello").cutfine().f() // ["h", "e", "l", "l", "o"]
+```
 
 ### `ArraySubject`
 
