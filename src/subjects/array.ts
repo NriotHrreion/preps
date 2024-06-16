@@ -1,3 +1,5 @@
+import { to } from "../preps/to";
+import { StringSubject } from "./string";
 import { Subject } from "./subject";
 
 export class ArraySubject<T = any> extends Subject<any[]> {
@@ -23,6 +25,24 @@ export class ArraySubject<T = any> extends Subject<any[]> {
         return this;
     }
 
+    public is(arr: T[]): boolean {
+        if(this.value.length !== arr.length) return false;
+
+        for(let i = 0; i < this.value.length; i++) {
+            var item1 = this.value[i];
+            var item2 = arr[i];
+
+            if(item1 instanceof Array) {
+                if(!(item2 instanceof Array)) return false;
+                if(!to(item1).is(item2)) return false;
+            } else if(item1 !== item2) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
     public foreach(cb: (item: T, index: number, array: T[]) => T | void): ArraySubject {
         for(let i = 0; i < this.value.length; i++) {
             var newValue = cb(this.value[i], i, this.value);
@@ -42,6 +62,7 @@ export class ArraySubject<T = any> extends Subject<any[]> {
     }
 
     public removeIndex(index: number): ArraySubject {
+        if(index < 0) this.error("Index out of the length of array.");
         if(index >= this.value.length) return this;
 
         for(let i = 0; i < this.value.length; i++) {
@@ -56,7 +77,7 @@ export class ArraySubject<T = any> extends Subject<any[]> {
         }
     }
 
-    public removeItem(item: T): ArraySubject {
+    public removeItem(target: T): ArraySubject {
         var begin = false;
 
         for(let i = 0; i < this.value.length; i++) {
@@ -67,7 +88,7 @@ export class ArraySubject<T = any> extends Subject<any[]> {
                 }
 
                 this.value[i] = this.value[i + 1];
-            } else if(this.value[i] === item) {
+            } else if(this.value[i] === target) {
                 begin = true;
                 i--;
                 continue;
@@ -75,6 +96,76 @@ export class ArraySubject<T = any> extends Subject<any[]> {
         }
 
         return this;
+    }
+
+    public removeItems(target: T): ArraySubject {
+        return this.filter((item) => item === target);
+    }
+
+    public put(index: number, item: T): ArraySubject {
+        if(index < 0) this.error("Index out of the length of array.");
+        if(index >= this.value.length) {
+            this.value.push(item);
+            return this;
+        }
+
+        var tmp1: T = this.value[index];
+        for(let i = index; i < this.value.length; i++) {
+            if(i === index) {
+                this.value[i] = item;
+                continue;
+            }
+
+            var tmp2 = tmp1;
+            tmp1 = this.value[i];
+            this.value[i] = tmp2;
+        }
+        this.value.push(tmp1);
+
+        return this;
+    }
+
+    public join(separator: string): StringSubject {
+        return new StringSubject(this.value.join(separator));
+    }
+
+    // public sort(): ArraySubject {
+        
+    // }
+
+    public reverse(): ArraySubject {
+        var arr = [];
+
+        for(let i = this.value.length - 1; i >= 0; i--) {
+            arr.push(this.value[i]);
+        }
+
+        return new ArraySubject(arr);
+    }
+
+    public filter(cb: (item: T) => boolean): ArraySubject {
+        for(let i = 0; i < this.value.length; i++) {
+            if(cb(this.value[i])) {
+                this.remove(i);
+                i--;
+            }
+        }
+
+        return this;
+    }
+
+    public cut(index: number): ArraySubject {
+        if(index < 0) return new ArraySubject([[], [...this.value]]);
+        if(index >= this.value.length) return new ArraySubject([[...this.value], []]);
+
+        var arr1 = [], arr2 = [];
+        this.foreach((item, i) => {
+            i < index
+            ? arr1.push(item)
+            : arr2.push(item);
+        });
+
+        return new ArraySubject([arr1, arr2]);
     }
 
     public final<I extends void | number, R = I extends number ? T : T[]>(index: I): R {
