@@ -43,7 +43,7 @@ export class ArraySubject<T = any> extends Subject<any[]> {
         return true;
     }
 
-    public foreach(cb: (item: T, index: number, array: T[]) => T | void): ArraySubject {
+    public foreach(cb: (item: T, index: number, arr: T[]) => T | void): ArraySubject {
         for(let i = 0; i < this.value.length; i++) {
             var newValue = cb(this.value[i], i, this.value);
 
@@ -52,6 +52,10 @@ export class ArraySubject<T = any> extends Subject<any[]> {
 
         return this;
     }
+
+    // public map(): ArraySubject {
+
+    // }
 
     public remove(which: number | T): ArraySubject {
         return (
@@ -142,6 +146,10 @@ export class ArraySubject<T = any> extends Subject<any[]> {
 
         return new ArraySubject(arr);
     }
+
+    // public shuffle(): ArraySubject {
+
+    // }
 
     public filter(cb: (item: T) => boolean): ArraySubject {
         for(let i = 0; i < this.value.length; i++) {

@@ -17,6 +17,7 @@ describe("preps test", () => {
     it("array operations", () => {
         expect(to([1, 2, 3, 4, 5]).type).toBe("array");
 
+        expect(to([1, 2, 3, 4, 5]).as((value) => [...value, 6]).f()).toEqual([1, 2, 3, 4, 5, 6]);
         expect(to([1, 2, 3, true, 5]).remove(true).f()).toEqual([1, 2, 3, 5]);
         expect(to([1, 2, 3, true, 5]).remove(3).f()).toEqual([1, 2, 3, 5]);
         expect(to([1, 2, 3, 4, 5]).removeIndex(2).f()).toEqual([1, 2, 4, 5]);

@@ -124,7 +124,9 @@ to("hello").add(" world").log() // "hello world"
 
 ### `StringSubject`
 
-#### `as(str: string | ((value: string) => string | void))` <a id="as"></a>
+This class is for the operations of strings.
+
+#### `as(operation: string | ((value: string) => string | void))` <a id="str-as"></a>
 
 - **Return:** [`StringSubject`](#stringsubject)
 
@@ -135,7 +137,7 @@ to("hello").as("hi").f() // "hi"
 to("hello").as((value) => value.length.toString()).f() // "5"
 ```
 
-#### `is(str: string)` <a id="is"></a>
+#### `is(str: string)` <a id="str-is"></a>
 
 - **Return:** `boolean`
 
@@ -146,7 +148,7 @@ to("hello").is("hello") // true
 to("hello").is("hi") // false
 ```
 
-#### `add(str: string)` <a id="add"></a>
+#### `add(str: string)` <a id="str-add"></a>
 
 - **Return:** [`StringSubject`](#stringsubject)
 
@@ -156,7 +158,7 @@ This allows you to add a string to the end of the string.
 to("hello").add(" world").f() // "hello world"
 ```
 
-#### `cut(index: number)` <a id="cut"></a>
+#### `cut(index: number)` <a id="str-cut"></a>
 
 - **Return:** [`ArraySubject`](#arraysubject)
 
@@ -166,7 +168,7 @@ This allows you to divide the string into two parts.
 to("hello").cut(2).f() // ["he", "llo"]
 ```
 
-#### `split(separator: string)` <a id="split"></a>
+#### `split(separator: string)` <a id="str-split"></a>
 
 - **Return:** [`ArraySubject`](#arraysubject)
 
@@ -176,7 +178,7 @@ This allows you to divide the string into pieces by a separator.
 to("hello").split("l").f() // ["he", "", "o"]
 ```
 
-#### `cutfine()` <a id="cutfine"></a>
+#### `cutfine()` <a id="str-cutfine"></a>
 
 - **Return:** [`ArraySubject`](#arraysubject)
 
@@ -187,6 +189,148 @@ to("hello").cutfine().f() // ["h", "e", "l", "l", "o"]
 ```
 
 ### `ArraySubject`
+
+This class is for the operations of arrays.
+
+> Here, we took `T[]` as `array` for understandability and simplicity.
+
+#### `as(operation: array | ((value: array) => array | void))` <a id="arr-as"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to change the value of the array.
+
+```ts
+to([1, 2, 3]).as([3]).f() // [3]
+to([1, 2, 3]).as((value) => [...value, 4]).f() // [1, 2, 3, 4]
+```
+
+#### `is(arr: array)` <a id="arr-is"></a>
+
+- **Return:** `boolean`
+
+This allows you to check if the array is equal to another array.
+
+```ts
+to([1, 2, 3]).is([1, 2, 3]) // true
+to([1, 2, 3]).is([1, 2, 4]) // false
+```
+
+#### `foreach(cb: (item: T, index: number, arr: array) => T | void)` <a id="arr-foreach"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to iterate the array.
+
+```ts
+to([1, 2, 3]).foreach((item) => item + 1).f() // [2, 3, 4]
+```
+
+#### `map()` <a id="arr-map"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+_Not supported yet..._
+
+#### `remove(which: number | T)` <a id="arr-remove"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to remove an item from the array by the index or the item itself.
+
+```ts
+to([1, "2", true]).remove(2).f() // [1, "2"]
+to([1, "2", true]).remove("2").f() // [1, true]
+```
+
+#### `removeIndex(index: number)` <a id="arr-removeindex"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to remove an item from the array by the index.
+
+#### `removeItem(item: T)` <a id="arr-removeitem"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to remove an item from the array by the item itself.
+
+#### `removeItems(target: T)` <a id="arr-removeitems"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to remove all of the items in the array that are equal to the target.
+
+```ts
+to([1, 2, 3, 3, 3, 4, 3, 5, 3]).removeItems(3).f() // [1, 2, 4, 5]
+```
+
+#### `put(index: number, item: T)` <a id="arr-put"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to insert an item into the array by the index.
+
+```ts
+to([1, 2, 3]).put(1, 4).f() // [1, 4, 2, 3]
+```
+
+#### `join(separator: string)` <a id="arr-join"></a>
+
+- **Return:** [`StringSubject`](#stringsubject)
+
+This allows you to join the array into a string.
+
+#### `sort()` <a id="arr-sort"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+_Not supported yet..._
+
+#### `reverse()` <a id="arr-reverse"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to reverse the array.
+
+```ts
+to([1, 2, 3]).reverse().f() // [3, 2, 1]
+```
+
+#### `shuffle()` <a id="arr-shuffle"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+_Not supported yet..._
+
+#### `filter(cb: (item: T) => boolean)` <a id="arr-filter"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to filter the array with the specific condition.
+
+```ts
+to([1, 2, 3, 4, 5]).filter((item) => item > 2).f() // [3, 4, 5]
+```
+
+#### `cut(index: number)` <a id="arr-cut"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to divide the array into two parts.
+
+```ts
+to([1, 2, 3, 4, 5]).cut(2).f() // [[1, 2], [3, 4, 5]]
+```
+
+#### `final(index?: number)` <a id="arr-final"></a>
+
+- **Return:** The final result of your operations to the array or the specific item in the array.
+- **Alias:** `f(index?: number)`
+
+```ts
+to([1, 2, 3, 4, 5]).final(2) // 3
+```
 
 ### `DOMSubject`
 
