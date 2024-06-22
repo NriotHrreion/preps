@@ -11,12 +11,9 @@ Quick shortcut with prepositions
 
 </div>
 
-> This project hasn't completed yet...
-
 ## Table of Contents
 
 - [Installation](#installation)
-    - [Import](#import)
 - [Usage](#usage)
     - [`to(obj: string)`](#to-string)
     - [`to(obj: any[])`](#to-array)
@@ -67,11 +64,12 @@ Quick shortcut with prepositions
     - [`Tool`](#tool)
         - [`random(min: number, max: number)`](#tool-random)
         - [`sleep(ms: number)`](#tool-sleep)
-        - [`is()`](#tool-is)
-- [Examples](#examples)
+        - [`is(obj1: any, obj2: any)`](#tool-is)
 - [LICENSE](#license)
 
 ## Installation
+
+`preps` is available for both browsers and Node.js.
 
 #### HTML
 
@@ -81,9 +79,51 @@ Quick shortcut with prepositions
 
 #### npm
 
-_Not supported yet..._
+```bash
+npm install preps
+```
+
+```js
+// esm
+import { to, by } from "preps";
+
+// commonjs
+const { to, by } = require("preps");
+```
 
 ## Usage
+
+`preps` supports chain calling, which means you can do multiple operations with just one line of code. Take the following as an example:
+
+```ts
+const { to } = require("preps");
+
+to(["3", "2", "4", true, "5", "1", false, {}, "6"])
+  .filter((value) => typeof value !== "string")
+  .foreach((num) => parseInt(num) + 1)
+  .sort()
+  .reverse()
+  .filter((num) => num % 2 === 0)
+  .f();
+```
+
+Run the code, and you would get:
+
+```js
+[7, 5, 3]
+```
+
+`preps` also provides some utilities, and you can get the utils with `by()`. For example:
+
+```ts
+const { by } = require("preps");
+
+by().is({ abc: 1, test: "Hello" }, { test: "Hello", abc: 1 }); // true
+```
+
+For detailed usage, please refer to [API](#api).
+
+## API
 
 #### `to(obj: string)` <a id="to-string"></a>
 
@@ -137,7 +177,7 @@ This allows you to get the `Tool` class for the utilities.
 by()
 ```
 
-## API
+---
 
 ### Subject
 
@@ -567,13 +607,17 @@ This allows you to let the program sleep for a specified time.
 await by().sleep(1000)
 ```
 
-#### `is()` <a id="is"></a>
+#### `is(obj1: any, obj2: any)` <a id="is"></a>
 
 - **Return:** `boolean`
 
-_Not supported yet..._
+This allows you to check if two values are equal. It supports comparing objects, arrays, etc.
 
-## Examples
+```ts
+by().is(1, 1) // true
+by().is(1, 2) // false
+by().is({ a: 1, b: 2 }, { b: 2, a: 1 }) // true
+```
 
 ## LICENSE
 

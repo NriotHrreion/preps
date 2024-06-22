@@ -2,6 +2,7 @@ const path = require("path");
 
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     entry: "./src/index.ts",
@@ -30,7 +31,12 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: path.resolve(__dirname, "src/index.d.ts"), to: path.resolve(__dirname, "dist/preps.d.ts") }
+            ]
+        })
     ],
     optimization: {
         minimize: true,

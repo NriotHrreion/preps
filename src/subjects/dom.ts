@@ -21,7 +21,7 @@ export class DOMSubject extends Subject<HTMLElement> {
         super(obj);
     }
 
-    public static of(_elem: HTMLElement) {
+    public static of(_elem: HTMLElement): DOMSubject {
         var elem = _elem as TaggedHTMLElement;
         if(elem.$prepsTag) return DOMSubject.elements.get(elem.$prepsTag);
         
