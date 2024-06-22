@@ -21,7 +21,7 @@ export function to<S extends SubjectTypes, R = SubjectTypeDeterminer<S>>(obj: S)
     if(obj instanceof Array) {
         return new ArraySubject(obj) as R;
     }
-    if(window && obj instanceof HTMLElement) {
+    if(typeof window === "object" && obj instanceof HTMLElement) {
         return DOMSubject.of(obj) as R;
     }
 }

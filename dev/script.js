@@ -1,3 +1,1 @@
-at("#btn-1").on("click", () => {
-    to([3, "7", 2, 5, 4, 6, 1]).sort().log()
-});
+console.log(by().is(document.getElementById("btn-1"), document.getElementById("btn-1")));

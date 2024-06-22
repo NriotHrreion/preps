@@ -1,4 +1,4 @@
-import { to } from "../src";
+import { to, by } from "../src";
 
 describe("preps test", () => {
     it("string operations", () => {
@@ -38,5 +38,32 @@ describe("preps test", () => {
         expect(to(["3", true, 200, [1, 2, 3], null]).is(["3", true, 200, 5, null])).toBeFalsy();
         expect(to(["3", true, 200, [1, 2], null]).is(["3", true, 200, [1, 2, 3], null])).toBeFalsy();
         expect(to(["3", true, 200, 5, null]).is(["3", true, 200, [1, 2, 3], null])).toBeFalsy();
+        expect(to(["3", true, 200, { a: 1, b: [] }, null]).is(["3", true, 200, { a: 1, b: [] }, null])).toBeTruthy();
+        expect(to(["3", true, 200, { a: 1, b: [] }, null]).is(["3", true, 200, { a: 1, b: [0] }, null])).toBeFalsy();
+        expect(to(["3", true, 200, { a: 2, b: [] }, null]).is(["3", true, 200, { a: 1, b: [] }, null])).toBeFalsy();
+    });
+
+    it("tools", () => {
+        expect(by().is(10, "hello")).toBeFalsy();
+
+        expect(by().is(10, 10)).toBeTruthy();
+
+        expect(by().is(["3", true, 200, [1, 2, 3], null], ["3", true, 200, [1, 2], null])).toBeFalsy();
+
+        expect(by().is({}, [])).toBeFalsy();
+        expect(by().is({ a: 1, b: [] }, [5, { b: 123 }])).toBeFalsy();
+
+        expect(by().is(global, global)).toBeTruthy();
+        expect(by().is({ a: 1, b: [] }, global)).toBeFalsy();
+        expect(by().is(global, { a: 1, b: [] })).toBeFalsy();
+
+        expect(by().is({ a: 1, b: [] }, { a: 1, b: [] })).toBeTruthy();
+        expect(by().is({ a: 1, b: { test1: "Hello", test2: {} } }, { a: 1, b: { test1: "Hello", test2: {} } })).toBeTruthy();
+        expect(by().is({ a: 1, d: true, b: [], asdf: "hi" }, { b: [], asdf: "hi", d: true, a: 1 })).toBeTruthy();
+        expect(by().is({ a: 1, b: [] }, { a: 1, c: [] })).toBeFalsy();
+        expect(by().is({ a: 1, b: [0] }, { a: 1, b: [1] })).toBeFalsy();
+        expect(by().is({ a: 1, b: ["3", true, 200, [1, 2, 3], null] }, { a: 1, b: ["3", true, 200, [1, 2], null] })).toBeFalsy();
+        expect(by().is({ a: 1, b: [], c: "Hello" }, {a: 1, b: []})).toBeFalsy();
+        expect(by().is({ a: 1, b: [] }, {a: 1, b: [], c: "Hello"})).toBeFalsy();
     });
 });

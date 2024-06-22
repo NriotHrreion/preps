@@ -36,6 +36,9 @@ export class ArraySubject<T = any> extends Subject<any[]> {
             if(item1 instanceof Array) {
                 if(!(item2 instanceof Array)) return false;
                 if(!to(item1).is(item2)) return false;
+            } else if(typeof item1 === "object") {
+                if(!(typeof item2 === "object")) return false;
+                if(!by().is(item1, item2)) return false;
             } else if(item1 !== item2) {
                 return false;
             }
