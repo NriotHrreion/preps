@@ -36,7 +36,6 @@
         - [`as(operation: array | ((value: array) => array | void))`](#arr-as)
         - [`is(arr: array)`](#arr-is)
         - [`foreach(cb: (item: T, index: number, arr: array) => T | void)`](#arr-foreach)
-        - [`map()`](#arr-map)
         - [`remove(which: number | T)`](#arr-remove)
         - [`removeIndex(index: number)`](#arr-removeindex)
         - [`removeItem(item: T)`](#arr-removeitem)
@@ -50,6 +49,15 @@
         - [`cut(index: number)`](#arr-cut)
         - [`final(index?: number)`](#arr-final)
     - [`DOMSubject`](#domsubject)
+        - [`as(element: HTMLElement | ((value: HTMLElement) => HTMLElement | void))`](#dom-as)
+        - [`clear()`](#dom-clear)
+        - [`classes()`](#dom-classes)
+        - [`has(className: string)`](#dom-has)
+        - [`css()`](#dom-css)
+        - [`on(event: string, handler: (ev: Event) => void)`](#dom-on)
+        - [`once(event: string, handler: (ev: Event) => void)`](#dom-once)
+        - [`off(event: string)`](#dom-off)
+    - [`CSSSubject`](#csssubject)
 - [Examples](#examples)
 - [LICENSE](#license)
 
@@ -103,7 +111,7 @@ if(elem) to(elem);
 
 - **Return:** [`DOMSubject`](#domsubject)
 
-Almost the same as `to(obj: HTMLElement)`, this allows you to get a HTML element by a selector and then operate it with `preps`.
+Almost the same as `to(obj: HTMLElement)`, this allows you to get a HTML element by a selector **directly** and then operate it with `preps`.
 
 ```ts
 at("#btn")
@@ -111,7 +119,7 @@ at("#btn")
 
 ## API
 
-### `Subject`
+### Subject
 
 All the functions [above](#usage) returns an object that extends `Subject`. This class provides some basic methods.
 
@@ -138,7 +146,7 @@ This method is to finalize a series of operations and print the result into the 
 to("hello").add(" world").log() // "hello world"
 ```
 
-### `StringSubject`
+### StringSubject
 
 This class is for the operations of strings.
 
@@ -204,7 +212,7 @@ This allows you to divide the string into pieces, and each piece is no more than
 to("hello").cutfine().f() // ["h", "e", "l", "l", "o"]
 ```
 
-### `ArraySubject`
+### ArraySubject
 
 This class is for the operations of arrays.
 
@@ -353,9 +361,107 @@ Overriding the `final()` method in [`Subject`](#subject), this allows you to get
 to([1, 2, 3, 4, 5]).final(2) // 3
 ```
 
-### `DOMSubject`
+### DOMSubject
 
-### `CSSSubject`
+This class is for the operations of HTML elements. It is only available in browser environment.
+
+The following code snippets are shown in the context of this HTML file:
+
+```html
+<button id="#btn-1" class="cls-1 cls-2">Test 1</button>
+<button id="#btn-2">Test 2</button>
+
+<div id="container">
+    <p>Hello</p>
+    <p>World</p>
+</div>
+
+<span style="color: red">Hello World</span>
+```
+
+#### `as(operation: HTMLElement | ((value: HTMLElement) => HTMLElement | void))` <a id="dom-as"></a>
+
+- **Return:** [`DOMSubject`](#domsubject)
+
+This allows you to change the value of the HTML element.
+
+```ts
+at("#btn-1").as(() => document.querySelector("#btn-2")).f(); // <button id="#btn-2">Test 2</button>
+```
+
+#### `clear()` <a id="dom-clear"></a>
+
+- **Return:** [`DOMSubject`](#domsubject)
+
+This allows you to clear the child nodes of the HTML element.
+
+```ts
+at("#container").clear().f() // <div id="container"></div>
+```
+
+#### `classes()` <a id="dom-classes"></a>
+
+- **Return:** [`ArraySubject`](#arraysubject)
+
+This allows you to get the class list of the HTML element.
+
+```ts
+at("#btn-1").classes().f() // ["cls-1", "cls-2"]
+```
+
+#### `has(className: string)` <a id="dom-has"></a>
+
+- **Return:** `boolean`
+
+This allows you to check if the HTML element has the specific class.
+
+```ts
+at("#btn-1").has("cls-1").f() // true
+at("#btn-2").has("cls-1").f() // false
+```
+
+#### `css()` <a id="dom-css"></a>
+
+- **Return:** [`CSSSubject`](#csssubject)
+
+This allows you to get the `CSSSubject` instance of the HTML element, which enables you to edit the CSS styles.
+
+```ts
+at("span").css().f() // CSSSubject { color: "red" }
+```
+
+#### `on(event: string, handler: (ev: Event) => void)` <a id="dom-on"></a>
+
+- **Return:** [`DOMSubject`](#domsubject)
+
+This allows you to add an event listener to the HTML element.
+
+```ts
+at("#btn-1").on("click", () => alert("Hello World!")).f()
+```
+
+#### `once(event: string, handler: (ev: Event) => void)` <a id="dom-once"></a>
+
+- **Return:** [`DOMSubject`](#domsubject)
+
+This allows you to add a one-time event listener to the HTML element.
+
+```ts
+at("#btn-1").once("click", () => alert("Hello World!")).f()
+```
+
+#### `off(event: string)` <a id="dom-off"></a>
+
+- **Return:** [`DOMSubject`](#domsubject)
+
+This allows you to remove events of a specific event type from the HTML element.
+
+```ts
+// Remove all the click handlers of the button
+at("#btn-1").off("click").f()
+```
+
+### CSSSubject
 
 ## Examples
 
