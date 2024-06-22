@@ -1,5 +1,6 @@
 import { ArraySubject } from "./array";
 import { CSSSubject } from "./css";
+import { StringSubject } from "./string";
 import { Subject } from "./subject";
 
 type EventEnum = keyof HTMLElementEventMap;
@@ -58,6 +59,15 @@ export class DOMSubject extends Subject<HTMLElement> {
 
     public has(className: string): boolean {
         return this.value.classList.contains(className);
+    }
+
+    public attr<V extends string | undefined = undefined, R = V extends string ? DOMSubject : StringSubject>(key: string, value?: V): R {
+        if(value) {
+            this.value.setAttribute(key, value);
+            return this as unknown as R;
+        }
+
+        return new StringSubject(this.value.getAttribute(key)) as R;
     }
 
     public css(): CSSSubject {

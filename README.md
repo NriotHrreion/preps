@@ -372,7 +372,7 @@ The following code snippets are shown in the context of this HTML file:
 
 ```html
 <button id="#btn-1" class="cls-1 cls-2">Test 1</button>
-<button id="#btn-2">Test 2</button>
+<button id="#btn-2" data-attr="1">Test 2</button>
 
 <div id="container">
     <p>Hello</p>
@@ -421,6 +421,17 @@ This allows you to check if the HTML element has the specific class.
 ```ts
 at("#btn-1").has("cls-1").f() // true
 at("#btn-2").has("cls-1").f() // false
+```
+
+#### `attr(key: string, value?: string)` <a id="dom-attr"></a>
+
+- **Return:** [`DOMSubject`](#domsubject) | [`StringSubject`](#stringsubject)
+
+This allows you to get or set the attribute of the HTML element. If the value is specified, it will set the attribute value. Otherwise, it will return the attribute value.
+
+```ts
+at("#btn-2").attr("data-attr").f() // "1"
+at("#btn-2").attr("data-attr", "2").f() // <button id="#btn-2" data-attr="2">Test 2</button>
 ```
 
 #### `css()` <a id="dom-css"></a>
