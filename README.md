@@ -7,7 +7,7 @@
 [![Stars](https://img.shields.io/github/stars/NriotHrreion/preps.svg?label=Stars&style=flat)](https://github.com/NriotHrreion/preps/stargazers)
 [![Github Workflow Status](https://img.shields.io/github/actions/workflow/status/NriotHrreion/preps/test.yml)](https://github.com/NriotHrreion/preps/actions/workflows/test.yml)
 
-> Quick shortcut with prepositions
+Quick shortcut with prepositions
 
 </div>
 
@@ -75,7 +75,7 @@ _Not supported yet..._
 
 ## Usage
 
-### `to(obj: string)` <a id="to-string"></a>
+#### `to(obj: string)` <a id="to-string"></a>
 
 - **Return:** [`StringSubject`](#stringsubject)
 
@@ -85,7 +85,7 @@ This allows you to operate a string with `preps`. Available operations such as `
 to("hello")
 ```
 
-### `to(obj: any[])` <a id="to-array"></a>
+#### `to(obj: any[])` <a id="to-array"></a>
 
 - **Return:** [`ArraySubject`](#arraysubject)
 
@@ -95,7 +95,7 @@ This allows you to operate an array with `preps`. Available operations such as `
 to(["ABC", "abc", 150, null, true])
 ```
 
-### `to(obj: HTMLElement)` <a id="to-dom"></a>
+#### `to(obj: HTMLElement)` <a id="to-dom"></a>
 
 - **Return:** [`DOMSubject`](#domsubject)
 
@@ -107,7 +107,7 @@ var elem = document.getElementById("btn");
 if(elem) to(elem);
 ```
 
-### `at(selector: string)` <a id="at"></a>
+#### `at(selector: string)` <a id="at"></a>
 
 - **Return:** [`DOMSubject`](#domsubject)
 
@@ -303,7 +303,10 @@ This allows you to join the array into a string.
 
 - **Return:** [`ArraySubject`](#arraysubject)
 
-This allows you to sort the array. Plus, this method is only available for number array.
+This allows you to sort the array.
+
+> [!NOTE]   
+> This method is only available for number arrays.
 
 ```ts
 to([3, 7, 2, 5, 4, 6, 1]).sort().f() // [1, 2, 3, 4, 5]
