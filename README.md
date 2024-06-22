@@ -344,11 +344,15 @@ to([1, 2, 3, 4, 5]).cut(2).f() // [[1, 2], [3, 4, 5]]
 - **Return:** The final result of your operations to the array or the specific item in the array.
 - **Alias:** `f(index?: number)`
 
+Overriding the `final()` method in [`Subject`](#subject), this allows you to get a specific item in the final array. You can also use this method in the common way, which gives you the final result of your operations to the array.
+
 ```ts
 to([1, 2, 3, 4, 5]).final(2) // 3
 ```
 
 ### `DOMSubject`
+
+### `CSSSubject`
 
 ## Examples
 

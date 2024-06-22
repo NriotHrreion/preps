@@ -1,5 +1,5 @@
-import { through } from "./through";
+import { Tool } from "../subjects/tool";
 
-export function by(tool: string) {
-    through(tool);
+export function by(): Tool {
+    return new Tool();
 }

@@ -5,13 +5,29 @@ import { Subject } from "./subject";
 type EventEnum = keyof HTMLElementEventMap;
 type EventHandler<K extends EventEnum> = (this: HTMLElement, ev: HTMLElementEventMap[K]) => any;
 
+interface TaggedHTMLElement extends HTMLElement {
+    $prepsTag?: string
+}
+
 export class DOMSubject extends Subject<HTMLElement> {
     public readonly type = "dom";
 
-    private eventControllers: Map<EventEnum, AbortController> = new Map();
+    private static currentTag: number = -1;
+    private static elements: Map<string, DOMSubject> = new Map();
+    private eventControllers: Map<EventEnum, AbortController[]> = new Map();
 
     public constructor(obj: HTMLElement) {
         super(obj);
+    }
+
+    public static of(_elem: HTMLElement) {
+        var elem = _elem as TaggedHTMLElement;
+        if(elem.$prepsTag) return DOMSubject.elements.get(elem.$prepsTag);
+        
+        elem.$prepsTag = elem.tagName + "-" + (++DOMSubject.currentTag);
+        var subject = new DOMSubject(elem);
+        DOMSubject.elements.set(elem.$prepsTag, subject);
+        return subject;
     }
 
     public as(operation: HTMLElement | ((value: HTMLElement) => HTMLElement | void)): DOMSubject {
@@ -49,15 +65,13 @@ export class DOMSubject extends Subject<HTMLElement> {
     }
 
     public on<K extends EventEnum>(event: EventEnum, handler: EventHandler<K>): DOMSubject {
-        var controller: AbortController;
+        var controller: AbortController = new AbortController();
 
-        if(this.eventControllers.has(event)) {
-            controller = this.eventControllers.get(event);
-        } else {
-            controller = new AbortController();
-            this.eventControllers.set(event, controller);
+        if(!this.eventControllers.has(event)) {
+            this.eventControllers.set(event, [controller]);
         }
 
+        this.eventControllers.set(event, [...this.eventControllers.get(event), controller]);
         this.value.addEventListener(event, handler, { signal: controller.signal });
 
         return this;
@@ -69,11 +83,14 @@ export class DOMSubject extends Subject<HTMLElement> {
         return this;
     }
 
-    // public off(event: EventEnum): DOMSubject {
-    //     if(this.eventControllers.has(event)) this.eventControllers.get(event).abort();
+    public off(event: EventEnum): DOMSubject {
+        if(this.eventControllers.has(event)) {
+            this.eventControllers.get(event).forEach((controller) => controller.abort());
+            this.eventControllers.set(event, []);
+        }
 
-    //     return this;
-    // }
+        return this;
+    }
 
     public final(): HTMLElement {
         return this.value;
