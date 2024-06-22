@@ -242,12 +242,6 @@ This allows you to iterate the array.
 to([1, 2, 3]).foreach((item) => item + 1).f() // [2, 3, 4]
 ```
 
-#### `map()` <a id="arr-map"></a>
-
-- **Return:** [`ArraySubject`](#arraysubject)
-
-_Not supported yet..._
-
 #### `remove(which: number | T)` <a id="arr-remove"></a>
 
 - **Return:** [`ArraySubject`](#arraysubject)
@@ -301,7 +295,12 @@ This allows you to join the array into a string.
 
 - **Return:** [`ArraySubject`](#arraysubject)
 
-_Not supported yet..._
+This allows you to sort the array. Plus, this method is only available for number array.
+
+```ts
+to([3, 7, 2, 5, 4, 6, 1]).sort().f() // [1, 2, 3, 4, 5]
+to(["Hello", 7, 2, 5, 4, 6, 1]).sort().f() // Error
+```
 
 #### `reverse()` <a id="arr-reverse"></a>
 
@@ -317,7 +316,11 @@ to([1, 2, 3]).reverse().f() // [3, 2, 1]
 
 - **Return:** [`ArraySubject`](#arraysubject)
 
-_Not supported yet..._
+This allows you to shuffle the array.
+
+```ts
+to([1, 2, 3, 4]).shuffle().f() // it might return [2, 4, 3, 1]
+```
 
 #### `filter(cb: (item: T) => boolean)` <a id="arr-filter"></a>
 

@@ -1,3 +1,3 @@
 at("#btn-1").on("click", () => {
-    console.log("hello");
+    to([3, "7", 2, 5, 4, 6, 1]).sort().log()
 });

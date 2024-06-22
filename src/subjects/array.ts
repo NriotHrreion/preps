@@ -1,4 +1,5 @@
 import { to } from "../preps/to";
+import { by } from "../preps/by";
 import { StringSubject } from "./string";
 import { Subject } from "./subject";
 
@@ -52,10 +53,6 @@ export class ArraySubject<T = any> extends Subject<any[]> {
 
         return this;
     }
-
-    // public map(): ArraySubject {
-
-    // }
 
     public remove(which: number | T): ArraySubject {
         return (
@@ -133,9 +130,23 @@ export class ArraySubject<T = any> extends Subject<any[]> {
         return new StringSubject(this.value.join(separator));
     }
 
-    // public sort(): ArraySubject {
-        
-    // }
+    public sort(): ArraySubject {
+        for(let i = 0; i < this.value.length; i++) {
+            for(let j = this.value.length - 1; j >= 0; j--) {
+                if(typeof this.value[j] !== "number") throw new Error("Only number array can be sorted.");
+
+                if(j === 0 || this.value[j] >= this.value[j - 1]) {
+                    continue;
+                } else if(j > 0 && this.value[j] < this.value[j - 1]) {
+                    var tmp = this.value[j];
+                    this.value[j] = this.value[j - 1]
+                    this.value[j - 1] = tmp;
+                }
+            }
+        }
+
+        return this;
+    }
 
     public reverse(): ArraySubject {
         var arr = [];
@@ -147,9 +158,17 @@ export class ArraySubject<T = any> extends Subject<any[]> {
         return new ArraySubject(arr);
     }
 
-    // public shuffle(): ArraySubject {
+    public shuffle(): ArraySubject {
+        var arr = [];
 
-    // }
+        while(this.value.length > 0) {
+            var index = by().random(0, this.value.length - 1);
+            arr.push(this.value[index]);
+            this.removeIndex(index);
+        }
+
+        return new ArraySubject(arr);
+    }
 
     public filter(cb: (item: T) => boolean): ArraySubject {
         for(let i = 0; i < this.value.length; i++) {
