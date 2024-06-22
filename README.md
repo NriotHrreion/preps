@@ -53,6 +53,7 @@ Quick shortcut with prepositions
         - [`clear()`](#dom-clear)
         - [`classes()`](#dom-classes)
         - [`has(className: string)`](#dom-has)
+        - [`attr(key: string, value?: string)`](#dom-attr)
         - [`css()`](#dom-css)
         - [`on(event: string, handler: (ev: Event) => void)`](#dom-on)
         - [`once(event: string, handler: (ev: Event) => void)`](#dom-once)
