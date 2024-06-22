@@ -16,6 +16,7 @@ Quick shortcut with prepositions
 ## Table of Contents
 
 - [Installation](#installation)
+    - [Import](#import)
 - [Usage](#usage)
     - [`to(obj: string)`](#to-string)
     - [`to(obj: any[])`](#to-array)
@@ -116,6 +117,16 @@ Almost the same as `to(obj: HTMLElement)`, this allows you to get a HTML element
 
 ```ts
 at("#btn")
+```
+
+#### `by()` <a id="by"></a>
+
+- **Return:** [`Tool`](#tool)
+
+This allows you to get the `Tool` class for the utilities.
+
+```ts
+by()
 ```
 
 ## API
@@ -331,7 +342,7 @@ to([1, 2, 3]).reverse().f() // [3, 2, 1]
 This allows you to shuffle the array.
 
 ```ts
-to([1, 2, 3, 4]).shuffle().f() // it might return [2, 4, 3, 1]
+to([1, 2, 3, 4]).shuffle().f()
 ```
 
 #### `filter(cb: (item: T) => boolean)` <a id="arr-filter"></a>
@@ -477,6 +488,82 @@ at("#btn-1").off("click").f()
 ```
 
 ### CSSSubject
+
+This class is for editing the CSS styles of HTML elements. It is only available in browser environment.
+
+You can only get the instance by the `css()` method in `DOMSubject`.
+
+#### `get(key: string)` <a id="css-get"></a>
+
+- **Return:** `string`
+
+This allows you to get the value of the CSS property.
+
+```ts
+at("span").css().get("color") // "red"
+```
+
+#### `set(key: string, value: string)` <a id="css-set"></a>
+
+- **Return:** [`CSSSubject`](#csssubject)
+
+This allows you to set the value of the CSS property.
+
+```ts
+at("span").css().set("color", "blue").f() // CSSSubject { color: "blue" }
+```
+
+#### `is(key: string, value: string)` <a id="css-is"></a>
+
+- **Return:** `boolean`
+
+This allows you to check if the CSS property is the specified value.
+
+```ts
+at("span").css().is("color", "red") // true
+at("span").css().is("color", "blue") // false
+```
+
+#### `map()` <a id="css-map"></a>
+
+- **Return:** `Map<string, string>`
+
+This allows you to get the map of the CSS properties.
+
+```ts
+at("span").css().map() // Map { color: "red" }
+```
+
+### Tool
+
+This class is a utility class.
+
+#### `random(min: number, max: number)` <a id="random"></a>
+
+- **Return:** `number`
+
+This allows you to get a random number between the specified range.
+
+```ts
+by().random(1, 10)
+```
+
+#### `sleep(ms: number)` <a id="sleep"></a>
+
+- **Return:** `void`
+- **Async**
+
+This allows you to let the program sleep for a specified time.
+
+```ts
+await by().sleep(1000)
+```
+
+#### `is()` <a id="is"></a>
+
+- **Return:** `boolean`
+
+_Not supported yet..._
 
 ## Examples
 
