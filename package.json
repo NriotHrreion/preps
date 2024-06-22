@@ -10,7 +10,11 @@
   },
   "author": "NriotHrreion",
   "license": "MIT",
-  "homepage": ".",
+  "homepage": "https://github.com/NriotHrreion/preps",
+  "repository": "https://github.com/NriotHrreion/preps",
+  "keywords": [
+    "utils", "tool", "lib"
+  ],
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
