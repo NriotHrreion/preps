@@ -1,6 +1,6 @@
 {
   "name": "preps",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Quick shortcut with prepositions",
   "main": "dist/preps.min.js",
   "scripts": {
